@@ -11,10 +11,31 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {
-        $employees = Employee::with('company')->paginate(10); // Eager load the company relationship
-        return view('employees.index', compact('employees'));
+    public function index(Request $request)
+{
+    // Check if the request is for DataTables AJAX call
+    if ($request->ajax()) {
+        $employees = Employee::with('company')->select(['id', 'first_name', 'last_name', 'company_id', 'email', 'phone', 'role']);
+        
+        return datatables()->of($employees)
+            ->addColumn('company', function ($employee) {
+                return $employee->company ? $employee->company->name : 'N/A';
+            })
+            ->addColumn('actions', function ($employee) {
+                return '<a href="' . route('employees.edit', $employee->id) . '" class="btn btn-primary">Edit</a>
+                        <form action="' . route('employees.destroy', $employee->id) . '" method="POST" style="display:inline;">
+                            ' . csrf_field() . '
+                            ' . method_field('DELETE') . '
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
+
+    return view('employees.index');
+}
+
 
     /**
      * Show the form for creating a new resource.

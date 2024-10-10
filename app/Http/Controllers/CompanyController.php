@@ -10,11 +10,34 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $companies = Company::paginate(10); // Pagination
-        return view('companies.index', compact('companies'));
+    public function index(Request $request)
+{
+    // Check if the request is an AJAX call from DataTables
+    if ($request->ajax()) {
+        $companies = Company::select(['id', 'name', 'logo']);
+
+        return datatables()->of($companies)
+            ->addColumn('logo', function ($company) {
+                if ($company->logo) {
+                    return '<img src="' . asset('storage/' . $company->logo) . '" alt="Company Logo" style="width: 50px; height: auto;">';
+                }
+                return 'N/A';
+            })
+            ->addColumn('actions', function ($company) {
+                return '<a href="' . route('companies.edit', $company->id) . '" class="btn btn-primary">Edit</a>
+                        <form action="' . route('companies.destroy', $company->id) . '" method="POST" style="display:inline;">
+                            ' . csrf_field() . '
+                            ' . method_field('DELETE') . '
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>';
+            })
+            ->rawColumns(['logo', 'actions']) // Ensure HTML is rendered correctly
+            ->make(true);
     }
+
+    return view('companies.index');
+}
+
 
     /**
      * Show the form for creating a new resource.
