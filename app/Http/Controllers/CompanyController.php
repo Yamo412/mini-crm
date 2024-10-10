@@ -28,25 +28,28 @@ class CompanyController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation as needed
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:min_width=100,min_height=100', // Updated dimensions
+    ], [
+        'logo.dimensions' => 'The logo must be at least 100x100 pixels.',
+    ]);
 
-        $company = new Company();
-        $company->name = $request->name;
+    $company = new Company();
+    $company->name = $request->name;
 
-        // Handle logo upload
-        if ($request->hasFile('logo')) {
-            $path = $request->file('logo')->store('logos', 'public');
-            $company->logo = $path;
-        }
-
-        $company->save();
-
-        return redirect()->route('companies.index')->with('success', 'Company added successfully!');
+    // Handle logo upload
+    if ($request->hasFile('logo')) {
+        $path = $request->file('logo')->store('logos', 'public');
+        $company->logo = $path;
     }
+
+    $company->save();
+
+    return redirect()->route('companies.index')->with('success', 'Company added successfully!');
+}
+
 
     /**
      * Display the specified resource.
