@@ -46,15 +46,5 @@
             </a>
         </div>
     </div>
-
-    <!-- Logout Section -->
-    <div class="text-center">
-        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-            @csrf
-            <button type="submit" class="btn btn-outline-danger btn-lg px-4">
-                Logout
-            </button>
-        </form>
-    </div>
 </div>
 @endsection
