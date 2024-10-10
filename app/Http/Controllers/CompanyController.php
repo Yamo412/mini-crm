@@ -74,13 +74,6 @@ class CompanyController extends Controller
 }
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Company $company)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified comapny.

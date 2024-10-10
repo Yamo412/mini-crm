@@ -35,7 +35,7 @@ class EmployeeController extends Controller
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>';
             })
-            ->rawColumns(['company_logo', 'actions']) // Ensure HTML is rendered correctly
+            ->rawColumns(['company_logo', 'actions'])
             ->make(true);
     }
 
@@ -68,14 +68,7 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index')->with('success', 'Employee added successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Employee $employee)
-    {
-        //
-    }
-
+ 
     /**
      * Show the form for editing the specified resource.
      */

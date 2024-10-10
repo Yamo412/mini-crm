@@ -17,11 +17,9 @@ Route::get('/', function () {
 // Authentication Route -> setting register to false
 Auth::routes(['register' => false]);
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
 // Resource routes for companies and employees with authentication middleware
 Route::middleware(['auth'])->group(function () {
-    Route::resource('companies', CompanyController::class)->middleware('auth');
+    Route::resource('companies', CompanyController::class);
     Route::resource('employees', EmployeeController::class);
     
     Route::get('/dashboard', function () {
