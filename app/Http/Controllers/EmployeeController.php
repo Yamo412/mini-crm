@@ -13,13 +13,19 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
 {
-    // Check if the request is for DataTables AJAX call
+    // Check if the request is an AJAX call from DataTables
     if ($request->ajax()) {
         $employees = Employee::with('company')->select(['id', 'first_name', 'last_name', 'company_id', 'email', 'phone', 'role']);
-        
+
         return datatables()->of($employees)
             ->addColumn('company', function ($employee) {
                 return $employee->company ? $employee->company->name : 'N/A';
+            })
+            ->addColumn('company_logo', function ($employee) {
+                if ($employee->company && $employee->company->logo) {
+                    return '<img src="' . asset('storage/' . $employee->company->logo) . '" alt="Company Logo" style="width: 50px; height: auto;">';
+                }
+                return 'N/A';
             })
             ->addColumn('actions', function ($employee) {
                 return '<a href="' . route('employees.edit', $employee->id) . '" class="btn btn-primary">Edit</a>
@@ -29,12 +35,13 @@ class EmployeeController extends Controller
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>';
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['company_logo', 'actions']) // Ensure HTML is rendered correctly
             ->make(true);
     }
 
     return view('employees.index');
 }
+
 
 
     /**

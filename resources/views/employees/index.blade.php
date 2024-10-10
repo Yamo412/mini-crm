@@ -22,6 +22,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Company</th>
+            <th>Company Logo</th> <!-- New column for Company Logo -->
             <th>Email</th>
             <th>Phone</th>
             <th>Role</th>
@@ -41,6 +42,7 @@
                 { "data": "first_name" },
                 { "data": "last_name" },
                 { "data": "company" },
+                { "data": "company_logo", "orderable": false, "searchable": false }, // New company logo column
                 { "data": "email" },
                 { "data": "phone" },
                 { "data": "role" },
