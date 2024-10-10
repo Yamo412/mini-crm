@@ -63,9 +63,16 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <!-- Footer Section -->
+        <footer class="bg-light text-center py-3 mt-4">
+            <div class="container">
+                <span class="text-muted">© 2024 Your Company Name. All rights reserved.</span>
+            </div>
+        </footer>
     </div>
 
-
+    <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
