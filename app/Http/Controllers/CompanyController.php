@@ -83,7 +83,7 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified comapny.
      */
     public function edit(Company $company)
     {
